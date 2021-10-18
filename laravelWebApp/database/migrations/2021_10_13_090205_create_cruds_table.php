@@ -17,6 +17,7 @@ class CreateCrudsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('email');
+            $table->text('password');
             $table->timestamps();
         });
     }

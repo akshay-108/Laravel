@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class crud extends Model
 {
     protected $table='cruds';
-    protected $fillable=['name','email'];
+    protected $fillable=['name','email','pass1','pass2'];
 }

@@ -18,19 +18,42 @@ use App\Models\crud;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/register', function () {
+    return view('auth.register');
+});
  //show home page
 Route::get('create',[CrudController::class,'create']);
 //  insert data in database
 Route::post('create',[CrudController::class,'store']);
 
 // fetch data from database
-Route::get('create',[CrudController::class,'show']);
+Route::get('read',[CrudController::class,'show']);
 
 // delete data 
-Route::get('/{id}',[CrudController::class,'destroy']);
+Route::get('delete/{id}',[CrudController::class,'destroy']);
 
 // edit
-Route::get('edit/{id}',[CrudController::class,'edit']);
+Route::get('read/{id}',[CrudController::class,'edit']);
 
 //update
-Route::post('edit/{id}',[CrudController::class,'update']);
+Route::put('read',[CrudController::class,'update']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
