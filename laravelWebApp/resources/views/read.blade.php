@@ -52,6 +52,7 @@
 
 <br><br>
 <a href="create" class="btn btn-outline-success">Go to registration page</a>
+<a href="profile" class="btn btn-outline-success">Go to Profile page</a>
 
 
 <!-- Edit modal -->
@@ -87,6 +88,8 @@
     </div>
   </div>
 </div>
+
+
 
 @endsection('content')
 

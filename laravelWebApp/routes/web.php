@@ -19,10 +19,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/register', function () {
-    return view('auth.register');
-});
  //show home page
+Route::get('create',function()
+{
+    if(session()->has('name'))
+    {
+        return redirect('profile');
+    }
+});
+
 Route::get('create',[CrudController::class,'create']);
 //  insert data in database
 Route::post('create',[CrudController::class,'store']);
@@ -38,6 +43,17 @@ Route::get('read/{id}',[CrudController::class,'edit']);
 
 //update
 Route::put('read',[CrudController::class,'update']);
+
+Route::view('profile','profile');
+
+Route::get('/logout',function()
+{
+    if(session()->has('name'))
+    {
+        session()->pull('name',null);
+    }
+    return redirect('create');
+});
 
 
 

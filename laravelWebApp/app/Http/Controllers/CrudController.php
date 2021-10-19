@@ -48,12 +48,17 @@ class CrudController extends Controller
         $crud->email=$request->get('email');
         $crud->tpassword=$request->get('pass1');
         $crud->password=$request->get('pass2');
+
+        $request->session()->put('name',$crud->name);
+        echo session('name');
+        // return false;
+
         if(!$crud->password == $crud->tpassword) {
             return "Password not matched";
         }
 
         $crud->save();
-        return redirect('read');
+        return redirect('profile');
     }
 
     /**
