@@ -9,3 +9,11 @@
 .wrapper .form-group,.row .col-md-6{
     margin:10px 0;
 }
+.lo{
+    position: absolute;
+    left: 1152px
+}
+.li{
+    position: absolute;
+    left: 970px 
+}
