@@ -1,7 +1,7 @@
 @extends('layout.master')
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="profile">{{session('name')}}</a>
+    <a class="navbar-brand" href="profile">Navbar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -16,8 +16,14 @@
         <li class="nav-item">
           <a class="nav-link" href="read">Data View</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="logout">Logout</a>
+        
+
+        <!-- display name -->
+        <li class="nav-item li">
+          <a class="nav-link active" href="#">Welcome {{$LoggedUserInfo['name']}}</a>
+        </li>
+        <li class="nav-item lo">
+          <a class="nav-link active" href="{{route('userlogout')}}">Logout</a>
         </li>
       </ul>
     </div>
