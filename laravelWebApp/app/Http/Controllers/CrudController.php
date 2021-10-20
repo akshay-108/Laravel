@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\Models\crud;
 
 class CrudController extends Controller
@@ -25,7 +26,7 @@ class CrudController extends Controller
      */
     public function create()
     {
-        return view('home');
+        return view('register');
     }
 
     /**
@@ -36,30 +37,93 @@ class CrudController extends Controller
      */
     public function store(Request $request)
     {
-        //stroe data in cruds table
+        // check validate or not
         $request->validate([
-            'name'=>'required|min:5',
-            'email'=>'required',
-            'pass1'=>'required|min:8',
-            'pass2'=>'required|min:8',
+            'name'=>'required|min:5|unique:cruds',
+            'email'=>'required|email|unique:cruds',
+            'pass1'=>'required|min:8:max:16',
+            'pass2'=>'required|min:8|max:16',
         ]);
+
+        // insert data in database
         $crud=new crud;
         $crud->name=$request->get('name');
         $crud->email=$request->get('email');
         $crud->tpassword=$request->get('pass1');
         $crud->password=$request->get('pass2');
 
-        $request->session()->put('name',$crud->name);
-        echo session('name');
-        // return false;
-
-        if(!$crud->password == $crud->tpassword) {
+        if(!$crud->password === $crud->tpassword){
             return "Password not matched";
         }
 
         $crud->save();
+
+        // check data added or not in database
+        if($crud)
+        {
+            return back()->with('success','new user added to the database');
+        }else{
+            return back()->with('fail','something went wrong, try again later');
+        }
         return redirect('profile');
     }
+
+    // view login page
+    function getLogData()
+    {
+        return view('userlogin');
+    }
+
+    // check user are already member or not
+    function userCheck(Request $request)
+    {
+        // return $request->input();
+
+        $request->validate([
+            'email'=>'required|email',
+            'pass2'=>'required|min:8|max:16',
+        ]);
+
+        $userInfo=crud::where('email','=',$request->email)->first();
+
+        if(!$userInfo)
+        {
+            //check email
+            return back()->with('fail','we do not recognize your email address');
+        }else{
+            //check password
+            if($request->pass2 !== $userInfo->pass2)
+            {
+                // if password correct
+                $request->session()->put('LoggedUser',$userInfo->id);
+                return redirect('profile');
+
+            }else{
+                // if password wrong
+                return back()->with('fail','Incorrect Password');
+            }
+        }
+    }
+
+    // if email and password are correct then open this page
+    function profile()
+    {
+        $data=['LoggedUserInfo'=>crud::where('id','=',session('LoggedUser'))->first()];
+        return view('profile',$data);
+    }
+
+    function logout()
+    {
+        if(session()->has('LoggedUser'))
+        {
+            session()->pull('LoggedUser');
+            return redirect('userlogin');
+        }
+    }
+
+
+
+
 
     /**
      * Display the specified resource.
@@ -70,7 +134,7 @@ class CrudController extends Controller
     public function show(crud $crud)
     {
         // show data
-        $crud=crud::paginate(3);
+        $crud=crud::paginate(8);
         return view('read',compact('crud'));
     }
 
