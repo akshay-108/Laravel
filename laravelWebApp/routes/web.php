@@ -19,18 +19,31 @@ Route::get('/', function () {
     return view('welcome');
 });
 
- //show home page
-Route::get('create',function()
-{
-    if(session()->has('name'))
-    {
-        return redirect('profile');
-    }
-});
 
-Route::get('create',[CrudController::class,'create']);
 //  insert data in database
 Route::post('create',[CrudController::class,'store']);
+// user check 
+Route::post('usercheck',[CrudController::class,'userCheck'])->name('usercheck');
+ // user logout
+ Route::get('userlogout',[CrudController::class,'logout'])->name('userlogout');
+
+
+
+
+// middleware
+Route::group(['middleware'=>['checkUser']],function()
+{
+     //show home page
+    Route::get('create',[CrudController::class,'create'])->name('create');
+    // user login
+    Route::get('userlogin',[CrudController::class,'getLogData'])->name('userlogin');
+    // after session generate 
+    Route::get('profile',[CrudController::class,'profile']);
+});
+
+
+
+
 
 // fetch data from database
 Route::get('read',[CrudController::class,'show']);
@@ -44,16 +57,6 @@ Route::get('read/{id}',[CrudController::class,'edit']);
 //update
 Route::put('read',[CrudController::class,'update']);
 
-Route::view('profile','profile');
-
-Route::get('/logout',function()
-{
-    if(session()->has('name'))
-    {
-        session()->pull('name',null);
-    }
-    return redirect('create');
-});
 
 
 
@@ -62,14 +65,3 @@ Route::get('/logout',function()
 
 
 
-
-
-
-
-
-
-
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
