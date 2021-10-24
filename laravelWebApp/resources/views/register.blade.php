@@ -30,17 +30,12 @@
         <div class="text-danger">@error ('email') {{$message}} @enderror</div>
         <div class="row">
            
-            <div class="col-md-6">
-                <label for="pass1">Enter Password</label>
-                <input type="password" class="form-control" name="pass1" id="pass1" value="{{old('pass1')}}">
-                <div class="text-danger">@error ('pass1') {{$message}} @enderror</div>
-            </div>
             
-            <div class="col-md-6">
-                <label for="pass2">Confirm Password</label>
-                <input type="password" class="form-control" name="pass2" id="pass2" value="{{old('pass2')}}">
-                <div class="text-danger">@error ('pass2') {{$message}} @enderror</div>  
-            </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" id="password" value="{{old('password')}}">
+            <div class="text-danger">@error ('password') {{$message}} @enderror</div>  
+        </div>
         </div>
     <button type="submit" class="mt-4 btn btn-primary">Register</button>
     <a class="float-end" href="{{route('userlogin')}}">Already have an account</a> 

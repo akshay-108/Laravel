@@ -41,20 +41,18 @@ class CrudController extends Controller
         $request->validate([
             'name'=>'required|min:5|unique:cruds',
             'email'=>'required|email|unique:cruds',
-            'pass1'=>'required|min:8:max:16',
-            'pass2'=>'required|min:8|max:16',
+            'password'=>'required|min:8|max:16',
         ]);
 
         // insert data in database
         $crud=new crud;
         $crud->name=$request->get('name');
         $crud->email=$request->get('email');
-        $crud->tpassword=$request->get('pass1');
-        $crud->password=$request->get('pass2');
+        $crud->password=$request->get('password');
 
-        if(!$crud->password === $crud->tpassword){
-            return "Password not matched";
-        }
+        // if(!$crud->password === $tp_pass){
+        //     return "Password not matched";
+        // }
 
         $crud->save();
 
@@ -81,7 +79,7 @@ class CrudController extends Controller
 
         $request->validate([
             'email'=>'required|email',
-            'pass2'=>'required|min:8|max:16',
+            'password'=>'required|min:8|max:16',
         ]);
 
         $userInfo=crud::where('email','=',$request->email)->first();
@@ -92,7 +90,7 @@ class CrudController extends Controller
             return back()->with('fail','we do not recognize your email address');
         }else{
             //check password
-            if($request->pass2 !== $userInfo->pass2)
+            if($request->password == $userInfo->password)
             {
                 // if password correct
                 $request->session()->put('LoggedUser',$userInfo->id);
@@ -133,9 +131,7 @@ class CrudController extends Controller
      */
     public function show(crud $crud)
     {
-        // show data
-        $crud=crud::paginate(8);
-        return view('read',compact('crud'));
+       
     }
 
     /**
@@ -144,15 +140,9 @@ class CrudController extends Controller
      * @param  \App\Models\crud  $crud
      * @return \Illuminate\Http\Response
      */
-    public function edit(crud $crud,$id)
+    public function edit(crud $crud)
     {
-       $crud=crud::find($id);
-    //    return view('read',compact('crud'));
-
-        return response()->json([
-            'status'=>200,
-            'crud'=>$crud,
-        ]);
+      
         
     }
 
@@ -165,22 +155,7 @@ class CrudController extends Controller
      */
     public function update(Request $request,crud $crud)
     {
-        // $crud=crud::find($id);
-        // $crud->name=$request->get('name');
-        // $crud->email=$request->get('email');
-        // $crud->save();
-        // return redirect('read');
-
-        $data_id=$request->get('data_id');
-        $crud=crud::find($data_id);
-        $crud->name=$request->get('name');
-        $crud->email=$request->get('email');
-
-        $crud->update();
-        return redirect('read')->with("success","Record updated Successfully...");;
-
-        // crud::find($request->id)->update($request->all());
-        // return redirect('read')->with('success', 'Student has been updated successfully');
+       
     }
 
     /**
@@ -191,8 +166,7 @@ class CrudController extends Controller
      */
     public function destroy(crud $crud,$id)
     {
-        crud::destroy(array('id',$id));
-        return redirect('read')->with("success","Record deleted Successfully...");
+        
 
     }
 }

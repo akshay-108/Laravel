@@ -15,5 +15,13 @@
 }
 .li{
     position: absolute;
-    left: 970px 
+    left: 970px;
+}
+.profile-card{
+    width:max-content;
+}
+.profile-card input,span{
+    border:none;
+    outline:none;
+    font-size: 25px;
 }

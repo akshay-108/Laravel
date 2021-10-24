@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CrudController;
+use App\Http\Controllers\AdminController;
 use App\Models\crud;
+use App\Models\admin;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,18 +46,24 @@ Route::group(['middleware'=>['checkUser']],function()
 
 
 
+// admin panel
+Route::get('admin',[AdminController::class,'index'])->name('admin.login');
+
+Route::post('admin',[AdminController::class,'checkAdminData']);
 
 // fetch data from database
-Route::get('read',[CrudController::class,'show']);
+Route::get('read',[AdminController::class,'show']);
 
 // delete data 
-Route::get('delete/{id}',[CrudController::class,'destroy']);
+Route::get('delete/{id}',[AdminController::class,'destroy']);
 
 // edit
-Route::get('read/{id}',[CrudController::class,'edit']);
+Route::get('read/{id}',[AdminController::class,'edit']);
 
 //update
-Route::put('read',[CrudController::class,'update']);
+Route::post('/read',[AdminController::class,'update']);
+
+
 
 
 

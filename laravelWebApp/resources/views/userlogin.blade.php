@@ -19,9 +19,9 @@
         <div class="text-danger">@error ('email') {{$message}} @enderror</div> 
 
         <div class="form-group">
-            <label for="pass2">Enter Password</label>
-            <input type="password" class="form-control" name="pass2" id="pass2" value="{{old('pass2')}}">
-            <div class="text-danger">@error ('pass2') {{$message}} @enderror</div>
+            <label for="password">Enter Password</label>
+            <input type="password" class="form-control" name="password" id="password" value="{{old('password')}}">
+            <div class="text-danger">@error ('password') {{$message}} @enderror</div>
             
         </div>
 
